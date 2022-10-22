@@ -1,17 +1,32 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:flutter_material/additem.dart';
 
 void main() {
   runApp(MyApp());
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   const MyApp({super.key});
 
-  myfun() {
-    print('Hello');
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  int selectedindex = 0;
+  void _navigateBottombar(int index) {
+    setState(() {
+      selectedindex = index;
+    });
   }
+
+  final List<Widget> _pages = [
+    addItem(),
+    addItem(),
+    addItem(),
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -102,6 +117,20 @@ class MyApp extends StatelessWidget {
             ),
           ),
         ),
+        body: _pages[selectedindex],
+        bottomNavigationBar: BottomNavigationBar(
+            currentIndex: selectedindex,
+            onTap: _navigateBottombar,
+            type: BottomNavigationBarType.fixed,
+            fixedColor: Colors.deepPurple,
+            elevation: 30,
+            backgroundColor: Colors.white60,
+            items: [
+              BottomNavigationBarItem(icon: Icon(Icons.home), label: "Home"),
+              BottomNavigationBarItem(icon: Icon(Icons.add), label: "Add Item"),
+              BottomNavigationBarItem(
+                  icon: Icon(Icons.shopping_bag_rounded), label: "Shopping"),
+            ]),
       ),
     );
   }
